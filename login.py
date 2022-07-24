@@ -13,9 +13,12 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QDialog
 from PyQt5.QtGui import QFont
 import sys
 import sqlite3
+import classclient as cli
 import qdarkstyle
 
+
 class Ui_LoginWindow(object):
+    
     def setupUi(self, MainWindow):
 ##        MainWindow.setObjectName("MainWindow")
 ##        MainWindow.resize(613, 600)
@@ -169,7 +172,13 @@ class Ui_LoginWindow(object):
                 dlg.exec_()
             else:
                 print('Login Succesfull')
+                print(result[0])
                 
+                user=cli.Client(username=result[0])
+                user.connect()
+                user.mainloop()
+                self.exit_app()
+                self.close()
             conn.close()
 
 login = QApplication(sys.argv)

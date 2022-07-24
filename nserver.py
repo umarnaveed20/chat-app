@@ -13,11 +13,11 @@ class Server():
 
     def listen_for_messages(self,client, username):
         while 1:
-            message = self.client.recv(2048).decode('utf-8')
+            message = client.recv(2048).decode('utf-8')
             if message != '':
                 
-                final_msg = self.username + '~' + message
-                send_messages_to_all(final_msg)
+                final_msg = username + '~' + message
+                self.send_messages_to_all(final_msg)
 
             else:
                 print(f"The message send from client {username} is empty")
@@ -25,15 +25,15 @@ class Server():
 
     # Function to send message to a single client
     def send_message_to_client(self,client, message):
-        self.client.sendall(self.message.encode())
+        client.sendall(message.encode())
 
     # Function to send any new message to all the clients that
     # are currently connected to this server
     def send_messages_to_all(self,message):
         
-        for user in active_clients:
+        for user in self.active_clients:
 
-            send_message_to_client(user[1], self.message)
+            self.send_message_to_client(user[1], message)
 
     # Function to handle client
     def client_handler(self,client):
@@ -42,16 +42,16 @@ class Server():
         # Contain the username
         while 1:
 
-            username = self.client.recv(2048).decode('utf-8')
+            username = client.recv(2048).decode('utf-8')
             if username != '':
-                self.active_clients.append((username, self.client))
+                self.active_clients.append((username, client))
                 prompt_message = "SERVER~" + f"{username} added to the chat"
-                send_messages_to_all(prompt_message)
+                self.send_messages_to_all(prompt_message)
                 break
             else:
                 print("Client username is empty")
 
-        threading.Thread(target=self.listen_for_messages, args=(self.client, username, )).start()
+        threading.Thread(target=self.listen_for_messages, args=(client, username, )).start()
 
     # Main function
     def main(self):
@@ -79,7 +79,7 @@ class Server():
             client, address = server.accept()
             print(f"Successfully connected to client {address[0]} {address[1]}")
 
-            threading.Thread(target=client_handler, args=(client, )).start()
+            threading.Thread(target=self.client_handler, args=(client, )).start()
 
 
 if __name__ == '__main__':

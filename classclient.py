@@ -18,8 +18,9 @@ SMALL_FONT = ("Helvetica", 13)
 
 
 class Client(tk.Tk):
-    def __init__(self):
+    def __init__(self,username="hello"):
         super().__init__()
+        self.username=username
         # AF_INET: we are going to use IPv4 addresses
         # SOCK_STREAM: we are using TCP packets for communication
         self.HOST = '127.0.0.1'
@@ -31,21 +32,21 @@ class Client(tk.Tk):
         self.grid_rowconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=4)
         self.grid_rowconfigure(2, weight=1)
-        self.top_frame = tk.Frame(self, width=600, height=100, bg=DARK_GREY)
-        self.top_frame.grid(row=0, column=0, sticky=tk.NSEW)
+##        self.top_frame = tk.Frame(self, width=600, height=100, bg=DARK_GREY)
+##        self.top_frame.grid(row=0, column=0, sticky=tk.NSEW)
         self.middle_frame = tk.Frame(self, width=600, height=400, bg=MEDIUM_GREY)
-        self.middle_frame.grid(row=1, column=0, sticky=tk.NSEW)
+        self.middle_frame.grid(row=0, column=0, sticky=tk.NSEW)
         self.bottom_frame = tk.Frame(self, width=600, height=100, bg=DARK_GREY)
-        self.bottom_frame.grid(row=2, column=0, sticky=tk.NSEW)
+        self.bottom_frame.grid(row=1, column=0, sticky=tk.NSEW)
 
-        self.username_label = tk.Label(self.top_frame, text="Enter username:", font=FONT, bg=DARK_GREY, fg=WHITE)
-        self.username_label.pack(side=tk.LEFT, padx=10)
-
-        self.username_textbox = tk.Entry(self.top_frame, font=FONT, bg=MEDIUM_GREY, fg=WHITE, width=23)
-        self.username_textbox.pack(side=tk.LEFT)
-
-        self.username_button = tk.Button(self.top_frame, text="Join", font=BUTTON_FONT, bg=OCEAN_BLUE, fg=WHITE, command=self.connect)
-        self.username_button.pack(side=tk.LEFT, padx=15)
+##        self.username_label = tk.Label(self.top_frame, text="Enter username:", font=FONT, bg=DARK_GREY, fg=WHITE)
+##        self.username_label.pack(side=tk.LEFT, padx=10)
+##
+##        self.username_textbox = tk.Entry(self.top_frame, font=FONT, bg=MEDIUM_GREY, fg=WHITE, width=23)
+##        self.username_textbox.pack(side=tk.LEFT)
+##
+##        self.username_button = tk.Button(self.top_frame, text="Join", font=BUTTON_FONT, bg=OCEAN_BLUE, fg=WHITE, command=self.connect)
+##        self.username_button.pack(side=tk.LEFT, padx=15)
 
         self.message_textbox = tk.Entry(self.bottom_frame, font=FONT, bg=MEDIUM_GREY, fg=WHITE, width=38)
         self.message_textbox.pack(side=tk.LEFT, padx=10)
@@ -73,7 +74,6 @@ class Client(tk.Tk):
         except:
             self.messagebox.showerror("Unable to connect to server", f"Unable to connect to server {self.HOST} {self.PORT}")
 
-        self.username = self.username_textbox.get()
         if self.username != '':
             self.client.sendall(self.username.encode())
         else:
@@ -95,7 +95,7 @@ class Client(tk.Tk):
 
         while 1:
 
-            self.message = self.client.recv(2048).decode('utf-8')
+            self.message = client.recv(2048).decode('utf-8')
             if self.message != '':
                 self.username = self.message.split("~")[0]
                 self.content = self.message.split('~')[1]
@@ -109,6 +109,6 @@ class Client(tk.Tk):
 
 
 
-if __name__ == "__main__":
-  app = Client()
-  app.mainloop()
+##if __name__ == "__main__":
+####  app = Client()
+##  app.mainloop()
