@@ -27,7 +27,7 @@ class Client(tk.Tk):
         self.PORT = 1234
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # configure the root window
-        self.title("Messenger Client")
+        self.title("Chat-app: "+self.username)
         self.resizable(False, False)
         self.grid_rowconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=4)
