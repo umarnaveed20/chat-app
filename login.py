@@ -10,11 +10,12 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QDialog
-from PyQt5.QtGui import QFont
+from PyQt5.QtGui import QFont, QCursor
 import sys
 import sqlite3
 import classclient as cli
 import qdarkstyle
+from register import 
 
 
 class Ui_LoginWindow(object):
@@ -78,6 +79,16 @@ class Ui_LoginWindow(object):
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.gridLayout.addItem(spacerItem1, 0, 2, 1, 1)
         self.verticalLayout.addLayout(self.gridLayout)
+        self.label4 = QtWidgets.QLabel(self.centralwidget)
+        font.setPointSize(12)
+        font.setBold(False)
+        self.label4.setFont(font)
+        self.label4.setAlignment(QtCore.Qt.AlignCenter)
+        self.label4.setObjectName("label4")
+        self.label4.mousePressEvent = self.signUp
+        self.label4.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
+        
+        self.verticalLayout.addWidget(self.label4)
 
 ##        self.username_inp = QtWidgets.QLineEdit(self.centralwidget)
 ##        self.username_inp.setGeometry(QtCore.QRect(210, 210, 221, 31))
@@ -99,12 +110,19 @@ class Ui_LoginWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+    def signUp(self, event):
+        win = QMainWindow()
+        Ui = Ui_LoginWindow()
+        Ui.setupUi(LoginWindow)
+        LoginWindow.show()
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Chat Application"))
         self.label.setText(_translate("MainWindow", "Login User"))
         self.label_2.setText(_translate("MainWindow", "Email"))
         self.label_3.setText(_translate("MainWindow", "Password"))
+        self.label4.setText(_translate("MainWindow", "Create new account"))
         self.pushButton.setText(_translate("MainWindow", "Sign In"))
         
     def LogIn(self):
@@ -156,16 +174,13 @@ class Ui_LoginWindow(object):
                 self.exit_app()
                 self.close()
             conn.close()
-def main():
-        login = QApplication(sys.argv)
-        dark_stylesheet = qdarkstyle.load_stylesheet_pyqt5()
-        login.setStyleSheet(dark_stylesheet)
-        login.setWindowIcon(QtGui.QIcon('chat-icon.png'))
-        LoginWindow = QMainWindow()
-        Ui = Ui_LoginWindow()
-        Ui.setupUi(LoginWindow)
-        LoginWindow.show()
-        login.exec()
 
-
-main() 
+login = QApplication(sys.argv)
+dark_stylesheet = qdarkstyle.load_stylesheet_pyqt5()
+login.setStyleSheet(dark_stylesheet)
+login.setWindowIcon(QtGui.QIcon('chat-icon.png'))
+LoginWindow = QMainWindow()
+Ui = Ui_LoginWindow()
+Ui.setupUi(LoginWindow)
+LoginWindow.show()
+login.exec()
