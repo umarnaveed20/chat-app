@@ -118,6 +118,7 @@ class Ui_MainWindow(object):
         checker = [Name, Email, Password]
         
         if "" in checker:
+            print('abc')
             dlg = QDialog()
             dlg.setStyleSheet(dark_stylesheet)
             dlg.setWindowTitle("Error")
@@ -163,7 +164,6 @@ class Ui_MainWindow(object):
 
             con.close()
     
-        
 app = QApplication(sys.argv)
 dark_stylesheet = qdarkstyle.load_stylesheet_pyqt5()
 app.setStyleSheet(dark_stylesheet)

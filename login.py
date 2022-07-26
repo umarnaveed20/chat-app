@@ -15,7 +15,7 @@ import sys
 import sqlite3
 import classclient as cli
 import qdarkstyle
-from register import 
+import os
 
 
 class Ui_LoginWindow(object):
@@ -111,10 +111,7 @@ class Ui_LoginWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def signUp(self, event):
-        win = QMainWindow()
-        Ui = Ui_LoginWindow()
-        Ui.setupUi(LoginWindow)
-        LoginWindow.show()
+        os.system('python register.py')
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -167,12 +164,11 @@ class Ui_LoginWindow(object):
             else:
                 print('Login Succesfull')
                 print(result[0])
-                
+                LoginWindow.close()
                 user=cli.Client(username=result[0])
                 user.connect()
                 user.mainloop()
-                self.exit_app()
-                self.close()
+                
             conn.close()
 
 login = QApplication(sys.argv)
